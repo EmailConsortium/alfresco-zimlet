@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Zimbra Attachment Upload</shortname>
+  <description>Upload Zimbra Email Attachment to Alfresco</description>
+  <url format="json" template="/zimbra/upload.json"/>
+  <format default="json">extension</format>
+  <authentication>user</authentication>
+  <transaction>required</transaction>
+</webscript>

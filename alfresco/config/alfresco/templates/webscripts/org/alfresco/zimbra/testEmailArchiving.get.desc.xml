@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Test email archiving</shortname>
+  <description>Test email archiving</description>
+  <url format="html" template="/zimbra/test/email"/>
+  <format default="html">extension</format>
+  <authentication>user</authentication>
+  <transaction>required</transaction>
+</webscript>

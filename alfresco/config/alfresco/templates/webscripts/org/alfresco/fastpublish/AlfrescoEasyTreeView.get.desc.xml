@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>Alfresco Easy Tree View</shortname>
+  <description>Provide a simple tree view of alfresco repository</description>
+  <url>/easy/tree</url>
+  <authentication>user</authentication>
+  <transaction>required</transaction>
+</webscript>

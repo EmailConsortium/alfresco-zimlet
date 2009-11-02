@@ -1,0 +1,30 @@
+<zimlet name="org_alfresco_helloworld" version="1.0" description="Hello World from Alfresco">
+    <summary>
+     	Hello world sample for testing alfresco webscript
+    </summary>
+	<include>org_alfresco_helloworld.js</include>
+	<includeCSS>org_alfresco_helloworld.css</includeCSS>
+	<handlerObject>Org_Alfresco_Helloworld</handlerObject>
+    <userProperties>
+	 		<property type="string" name="alfurl" label="Enter the address of your Alfresco server" maxLength="50" value="">
+	 		</property>
+	 		<property type="string" name="user" label="Enter your Alfresco username" maxLength="30" value="">
+	 		</property>
+	 		<property type="password" name="password" label="Enter your Alfresco password" maxLength="30" value="">
+	 		</property>
+	</userProperties>
+	<zimletPanelItem label="Alfresco Hello World" icon="ALFRESCO-panelIcon">
+		<toolTipText>
+	    	Hello World from Alfresco
+      	</toolTipText>
+		<contextMenu>
+			<menuItem label="About" id="HelloworldAbout" icon="ABOUT-panelIcon" />
+			<menuItem />
+			<menuItem label="Preferences..." id="PREFERENCES" icon="CONFIG-panelIcon"/>
+			<menuItem label="Visit Alfresco" id="WWW.ALFRESCO.COM" icon="ALFRESCO-panelIcon">
+				<canvas type="window" title="Alfresco Website" width="800" height="600" />
+				<actionUrl target="http://www.alfresco.com" />
+			</menuItem>
+		</contextMenu>      	
+    </zimletPanelItem>  		
+</zimlet>

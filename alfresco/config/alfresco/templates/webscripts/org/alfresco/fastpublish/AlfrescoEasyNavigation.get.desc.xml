@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Alfresco Easy Navigation Service</shortname>
+  <description>Provides an autocomplete based dropdown list for easy navigation</description>
+  <url template="/easy/nav"/>
+  <authentication>user</authentication>
+  <transaction>required</transaction>
+  <format default="json">any</format>
+</webscript>

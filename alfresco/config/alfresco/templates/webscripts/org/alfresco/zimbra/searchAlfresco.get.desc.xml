@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>Search Alfresco</shortname>
+  <description>Execute keyword search for getting a list of Alfresco documents</description>
+  <url format="html" template="/zimbra/search"/>
+  <format default="html">extension</format>
+  <authentication>user</authentication>
+  <transaction>required</transaction>
+</webscript>

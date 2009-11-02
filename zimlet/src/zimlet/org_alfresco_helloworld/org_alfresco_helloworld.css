@@ -1,0 +1,20 @@
+.ImgALFRESCO-panelIcon {
+background: transparent url("AlfrescoLogo16.gif") no-repeat left center;
+width: 16px;
+height: 16px;
+overflow: hidden;
+}
+
+.ImgABOUT-panelIcon {
+background: transparent url("info.png") no-repeat left center;
+width: 16px;
+height: 16px;
+overflow: hidden;
+}
+
+.ImgCONFIG-panelIcon {
+background: transparent url("config.png") no-repeat left center;
+width: 16px;
+height: 16px;
+overflow: hidden;
+}

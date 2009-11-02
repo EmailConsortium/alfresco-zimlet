@@ -1,0 +1,45 @@
+<zimlet name="org_alfresco_zimbra" version="1.0" description="Alfresco Zimbra Integration">
+    <summary>
+     	Integration between alfresco and zimbra. 
+     	For first phase, the integration will allow user to save attachment to alfresco repository.
+    	For outgoing emails, user can select documents from alfresco repository and attach them to the outgoing emails.
+    	User can also paste the links to alfresco documents directly into the email body.
+    </summary>
+	<include>org_alfresco_zimbra.js</include>
+	<include>utilities.js</include>
+	<include>autocomplete-min.js</include>
+	<include>yahoo-min.js</include>
+	<include>event-min.js</include>
+	<include>connection-min.js</include>
+	<include>treeview-min.js</include>
+	<include>AlfNode.js</include>
+	<include>AlfMimeTypes.js</include>
+	<includeCSS>org_alfresco_zimbra.css</includeCSS>
+	<includeCSS>treeview.css</includeCSS>
+	<includeCSS>autocomplete.css</includeCSS>
+	<handlerObject>Org_Alfresco_Zimbra</handlerObject>
+
+    <userProperties>
+	 		<property type="string" name="alfurl" label="Enter the address of your Alfresco server" maxLength="50" value="">
+	 		</property>
+	 		<property type="string" name="user" label="Enter your Alfresco username" maxLength="30" value="">
+	 		</property>
+	 		<property type="password" name="password" label="Enter your Alfresco password" maxLength="30" value="">
+	 		</property>
+	</userProperties>
+	<zimletPanelItem label="Alfresco" icon="ALFRESCO-panelIcon">
+		<toolTipText>
+	    	Alfresco Zimbra Integration
+      	</toolTipText>
+      	<dragSource type="ZmMailMsg" />
+		<contextMenu>
+			<menuItem label="About" id="AboutAlfresco" icon="ABOUT-panelIcon" />
+			<menuItem />
+			<menuItem label="Preferences..." id="PREFERENCES" icon="CONFIG-panelIcon"/>
+			<menuItem label="Visit Alfresco" id="WWW.ALFRESCO.COM" icon="ALFRESCO-panelIcon">
+				<canvas type="window" title="Alfresco Website" width="800" height="600" />
+				<actionUrl target="http://www.alfresco.com" />
+			</menuItem>
+		</contextMenu>      	
+    </zimletPanelItem>  		
+</zimlet>

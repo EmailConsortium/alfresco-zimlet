@@ -1,0 +1,9 @@
+<webscript>
+  <shortname>About Alfresco</shortname>
+  <description>Provides basic information about installed alfresco instance</description>
+  <url format="json" template="/zimbra/about.json"/>
+  <url format="html" template="/zimbra/about.html"/>
+  <format default="json">extension</format>
+  <authentication>user</authentication>
+  <transaction>required</transaction>
+</webscript>

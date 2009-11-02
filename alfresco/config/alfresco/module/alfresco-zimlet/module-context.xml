@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+
+	<bean id="contentTracking.dictionaryBootstrap" parent="dictionaryModelBootstrap" depends-on="dictionaryBootstrap">
+		<property name="models">
+			<list>
+				<value>alfresco/module/tracking/model/trackingModel.xml</value>
+			</list>
+		</property>
+	</bean>   
+
+	<bean id="contentTracking.config.bootstrap" class="org.alfresco.web.config.WebClientConfigBootstrap" init-method="init">
+       <property name="configs">
+         <list>
+            <value>classpath:alfresco/module/tracking/ui/web-client-config-custom.xml</value>
+         </list>
+       </property>
+    </bean>    
+
+    <bean id="tracking.onAddAspect.ContentTrackable" class="org.alfresco.repo.policy.registration.ClassPolicyRegistration" parent="policyRegistration">   
+        <property name="policyName">
+            <value>{http://www.alfresco.org}onAddAspect</value>
+        </property>  	   
+        <property name="className">
+            <value>{http://www.alfresco.org/model/tracking}content_trackable</value>
+        </property> 	   
+        <property name="behaviour">
+           <bean class="org.alfresco.repo.jscript.CustomScriptBehaviour" parent="scriptBehaviour">
+           		<property name="notificationFrequency" value="FIRST_EVENT"/>
+		        <property name="location">
+		        	<bean class="org.alfresco.repo.jscript.ClasspathScriptLocation">
+		            	<constructor-arg>
+		            		<value>alfresco/module/tracking/scripts/onAddAspectContentTrackable.js</value>
+		            	</constructor-arg>
+		            </bean>
+				</property>
+				<property name="nodeService">
+					<ref bean="nodeService"/>
+				</property>
+				<property name="transactionService">
+					<ref bean="transactionService"/>
+				</property>
+				<property name="personService">
+					<ref bean="personService"/>
+				</property>
+				<property name="scriptService">
+					<ref bean="scriptService"/>
+				</property>
+				<property name="authenticationService">
+					<ref bean="authenticationService"/>
+				</property>
+				<property name="threadExecuter">
+					<ref bean="defaultAsyncThreadPool"/>
+				</property>
+		        <property name="policyFilter">
+		            <ref bean="policyBehaviourFilter"/>
+        		</property>
+				<property name="authenticationComponent">
+					<ref bean="AuthenticationComponent"/>
+				</property>
+				<property name="repository" ref="repositoryHelper" />
+			</bean>        
+        </property> 
+    </bean>
+
+
+    <bean id="tracking.onContentRead.ContentTrackable" class="org.alfresco.repo.policy.registration.ClassPolicyRegistration" parent="policyRegistration">   
+        <property name="policyName">
+            <value>{http://www.alfresco.org}onContentRead</value>
+        </property>  	   
+        <property name="className">
+            <value>{http://www.alfresco.org/model/tracking}content_trackable</value>
+        </property> 	   
+        <property name="behaviour">
+           <bean class="org.alfresco.repo.jscript.CustomScriptBehaviour" parent="scriptBehaviour">
+           		<property name="notificationFrequency" value="EVERY_EVENT"/>
+		        <property name="location">
+		        	<bean class="org.alfresco.repo.jscript.ClasspathScriptLocation">
+		            	<constructor-arg>
+		            		<value>alfresco/module/tracking/scripts/onContentReadContentTrackable.js</value>
+		            	</constructor-arg>
+		            </bean>
+				</property>
+				<property name="nodeService">
+					<ref bean="nodeService"/>
+				</property>
+				<property name="transactionService">
+					<ref bean="transactionService"/>
+				</property>
+				<property name="personService">
+					<ref bean="personService"/>
+				</property>
+				<property name="scriptService">
+					<ref bean="scriptService"/>
+				</property>
+				<property name="authenticationService">
+					<ref bean="authenticationService"/>
+				</property>
+				<property name="threadExecuter">
+					<ref bean="defaultAsyncThreadPool"/>
+				</property>
+		        <property name="policyFilter">
+		            <ref bean="policyBehaviourFilter"/>
+        		</property>
+				<property name="authenticationComponent">
+					<ref bean="AuthenticationComponent"/>
+				</property>
+				<property name="repository" ref="repositoryHelper" />
+			</bean>        
+        </property> 
+    </bean>
+
+    <bean id="tracking.onCreateNode.Person" class="org.alfresco.repo.policy.registration.ClassPolicyRegistration" parent="policyRegistration">   
+        <property name="policyName">
+            <value>{http://www.alfresco.org}onCreateNode</value>
+        </property>  	   
+        <property name="className">
+            <value>{http://www.alfresco.org/model/content/1.0}person</value>
+        </property> 	   
+        <property name="behaviour">
+           <bean class="org.alfresco.repo.jscript.CustomScriptBehaviour" parent="scriptBehaviour">
+           		<property name="notificationFrequency" value="FIRST_EVENT"/>
+		        <property name="location">
+		        	<bean class="org.alfresco.repo.jscript.ClasspathScriptLocation">
+		            	<constructor-arg>
+		            		<value>alfresco/module/tracking/scripts/onCreateNodePerson.js</value>
+		            	</constructor-arg>
+		            </bean>
+				</property>
+				<property name="nodeService">
+					<ref bean="nodeService"/>
+				</property>
+				<property name="transactionService">
+					<ref bean="transactionService"/>
+				</property>
+				<property name="personService">
+					<ref bean="personService"/>
+				</property>
+				<property name="scriptService">
+					<ref bean="scriptService"/>
+				</property>
+				<property name="authenticationService">
+					<ref bean="authenticationService"/>
+				</property>
+				<property name="threadExecuter">
+					<ref bean="defaultAsyncThreadPool"/>
+				</property>
+		        <property name="policyFilter">
+		            <ref bean="policyBehaviourFilter"/>
+        		</property>
+				<property name="authenticationComponent">
+					<ref bean="AuthenticationComponent"/>
+				</property>
+				<property name="repository" ref="repositoryHelper" />
+			</bean>        
+        </property> 
+    </bean>
+
+</beans>

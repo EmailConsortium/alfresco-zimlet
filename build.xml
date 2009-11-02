@@ -1,0 +1,142 @@
+<project name="alfresco.zimlet" default="package">
+	
+	<property file="build.properties"/>
+
+	<property name="module.id" value="${module.id}"/>
+	<property name="module.title" value="${module.title}" />
+	<property name="module.version" value="${module.version}" />
+	<property name="alfresco.zimlet.name" value="${alfresco.zimlet.name}"/>
+	
+	<property name="project.dir" value="."/>
+	
+	<property name="project.alfresco.dir"  value="${project.dir}/alfresco"/>
+	<property name="project.zimlet.dir"    value="${project.dir}/zimlet"/>
+		
+	<property name="config.alfresco.dir" value="${project.alfresco.dir}/config"/>
+
+	<property name="build.alfresco.dir" value="${project.alfresco.dir}/build"/>
+	<property name="build.zimlet.dir"    value="${project.zimlet.dir}/build"/>
+	
+	<property name="dist.alfresco.dir" value="${build.alfresco.dir}/dist"/>
+	<property name="dist.zimlet.dir"    value="${build.zimlet.dir}/dist"/>
+
+	<property name="alfresco.src.web.dir"  value="${project.alfresco.dir}/source/web" />	
+	<property name="alfresco.src.java.dir" value="${project.alfresco.dir}/source/java" />
+	
+	<property name="zimlet.src.dir" value="${project.zimlet.dir}/src/zimlet" />	
+
+	<property name="package.file.alfresco.jar"  value="${dist.alfresco.dir}/${module.id}-${module.version}.jar" />
+
+	<property name="package.file.zimlet.zip"    value="${dist.zimlet.dir}/${alfresco.zimlet.name}.zip" />
+	<property name="package.file.alfresco.amp" value="${dist.alfresco.dir}/${module.id}-${module.version}.amp" />
+	<property name="package.file.alfresco.webscripts" value="${dist.alfresco.dir}/${module.id}-webscripts-${module.version}.zip" />
+	
+	<property name="property.alfresco.dir" value="${project.alfresco.dir}/config/alfresco/module/${module.id}" />
+	
+	<property name="alfresco.war"           value="${alfresco.location}/tomcat/webapps/alfresco.war"/>
+	<property name="alfresco.exploded.dir"  value="${alfresco.location}/tomcat/webapps/alfresco"/>
+	<property name="alfresco.extension.dir" value="${alfresco.location}/tomcat/zimletd/classes/alfresco/extension"/>
+
+	<path id="class.path">
+		<dirset dir="${build.alfresco.dir}" />
+		<dirset dir="${build.zimlet.dir}" />		
+		<fileset dir="${alfresco.location}/bin" includes="**/*.jar"/>
+		<fileset dir="${alfresco.location}/tomcat/lib" includes="**/*.jar"/>
+		<fileset dir="${alfresco.location}/tomcat/webapps/alfresco/WEB-INF/lib" includes="**/*.jar"/>
+		<fileset dir="${alfresco.location}/tomcat/webapps/zimlet/WEB-INF/lib" includes="**/*.jar"/>
+	</path>
+	
+	<target name="alfresco-init">
+		<mkdir dir="${build.alfresco.dir}" />
+		<mkdir dir="${build.alfresco.dir}/dist" />
+		<mkdir dir="${build.alfresco.dir}/classes" />
+	</target>
+
+	<target name="zimlet-init">
+		<mkdir dir="${build.zimlet.dir}" />
+		<mkdir dir="${build.zimlet.dir}/dist" />
+		<mkdir dir="${build.zimlet.dir}/classes" />
+	</target>
+
+	<target name="clean">
+		<delete>
+			<fileset dir="${build.alfresco.dir}" includes="**/*"/>
+			<fileset dir="${build.zimlet.dir}" includes="**/*"/>
+  		</delete>
+	</target>
+
+	<target name="alfresco-compile" depends="alfresco-init">
+		<javac classpathref="class.path" srcdir="${alfresco.src.java.dir}" destdir="${build.alfresco.dir}/classes" debug="true"/>
+		<copy todir="${build.alfresco.dir}/classes">
+			<fileset dir="${alfresco.src.java.dir}">
+				<include name="**/*.xml"/>
+				<include name="**/*.ftl"/>
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>		
+	</target>
+   
+	<target name="package-alfresco-jar" depends="alfresco-compile">
+		<delete file="${package.file.alfresco.jar}" />  
+		<jar destfile="${package.file.alfresco.jar}">
+			<fileset dir="${build.alfresco.dir}/classes" excludes="*.zip"/>
+		</jar>
+	</target>
+
+	<target name="zimlet-compile" depends="zimlet-init">
+		<javac classpathref="class.path" srcdir="${zimlet.src.java.dir}" destdir="${build.zimlet.dir}/classes" debug="true"/>
+		<copy todir="${build.zimlet.dir}/classes">
+			<fileset dir="${zimlet.src.java.dir}">
+				<include name="**/*.xml"/>
+				<include name="**/*.ftl"/>
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>		
+	</target>
+   
+	<target name="package-zimlet-jar" depends="zimlet-compile">
+		<delete file="${package.file.zimlet.jar}" />  
+		<jar destfile="${package.file.zimlet.jar}">
+			<fileset dir="${build.zimlet.dir}/classes" excludes="*.zip"/>
+		</jar>
+	</target>
+
+	<target name="package-webscripts" depends="alfresco-init" description="Packages Alfresco Webscripts">
+		<echo>Packaging ${module.title} webscripts</echo>
+		<zip destfile="${package.file.alfresco.webscripts}" update="true">
+   	     	<zipfileset dir="${config.alfresco.dir}/alfresco/templates/webscripts"/>
+   		</zip>
+	</target>
+
+	<target name="package-module" depends="alfresco-init" description="Packages Alfresco Module">
+		<echo>Packaging ${module.title} AMP file</echo>
+		<zip destfile="${package.file.alfresco.amp}" update="true">
+			<zipfileset file="${property.alfresco.dir}/module.properties"/>
+			<zipfileset file="${property.alfresco.dir}/file-mapping.properties"/>
+			<!--
+				<zipfileset file="${package.file.alfresco.jar}" prefix="web/WEB-INF/lib"/>
+   	     	-->
+   	     	<zipfileset dir="${config.alfresco.dir}" prefix="config">
+	   	     		<exclude name="**/module.properties"/>
+	   	     		<exclude name="**/file-mapping.properties"/>
+			</zipfileset>
+   	     	<zipfileset dir="${alfresco.src.web.dir}" prefix="web"/>
+   		</zip>
+	</target>
+	
+	<target name="package-zimlet" depends="zimlet-init" description="Packages Alfresco Zimlet">
+		<echo>Packaging ${alfresco.zimlet.name} Zimlet</echo>
+		<zip destfile="${package.file.zimlet.zip}" update="true">
+   	     	<zipfileset dir="${zimlet.src.dir}/${alfresco.zimlet.name}"/>
+   		</zip>
+	</target>
+		
+	<target name="package" depends="package-module,package-zimlet,package-webscripts" />
+	
+	<target name="apply-amp" depends="package">
+		<echo>Installing ${module.title} into WAR</echo>
+   		<copy file="${package.file.amp}" todir="${alfresco.location}/amps"/>
+   		<exec dir="${alfresco.location}" executable="${alfresco.location}/apply_amps.bat"/>
+	</target>
+	
+</project>

@@ -1,0 +1,118 @@
+.ImgALFRESCO-panelIcon {
+background: transparent url("AlfrescoLogo16.gif") no-repeat left center;
+width: 16px;
+height: 16px;
+overflow: hidden;
+}
+
+.ImgABOUT-panelIcon {
+background: transparent url("info.png") no-repeat left center;
+width: 16px;
+height: 16px;
+overflow: hidden;
+}
+
+.ImgCONFIG-panelIcon {
+background: transparent url("config.png") no-repeat left center;
+width: 16px;
+height: 16px;
+overflow: hidden;
+}
+
+.Alfresco_hCenter
+{
+    display:block;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.Alfresco_hLeft
+{
+    display:block;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    margin-left: 3px;
+    text-align: left;
+}
+
+.Alfresco_hLeft_hint
+{
+    display:block;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    margin-left: 3px;
+    text-align: left;
+    font-size: 80%;
+}
+
+div.Alfresco_busyMsg
+{
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.Alfresco_iTable
+{
+    border-color: #808080;
+	border-width: 1px;
+    border-style: solid;
+    border-collapse: collapse;
+}
+
+.Alfresco_iTable td
+{
+    border-color: #808080;
+	border-width: 1px;
+	border-style: solid;
+}
+
+.Alfresco_iTable th
+{
+    border-color: #808080;
+	border-width: 1px;
+	border-style: solid;
+}
+
+.ygtvcheck0 { 
+	background: url(check0.gif) 0 0 no-repeat; 
+	width:16px; cursor:pointer	
+}
+
+.ygtvcheck1 { background: url(check1.gif) 0 0 no-repeat;
+	width:16px; cursor:pointer
+}
+
+.ygtvcheck2 { background: url(check2.gif) 0 0 no-repeat;
+	width:16px; cursor:pointer
+}
+
+.yui-ac{position:relative;font-family:arial;font-size:100%;} 
+.yui-ac-input{position:absolute;width:100%;} 
+.yui-ac-container{position:absolute;top:1.6em;width:100%;} 
+.yui-ac-content{position:absolute;width:100%;border:1px solid #808080;background:#fff;overflow:hidden;z-index:9050;} 
+.yui-ac-shadow{position:absolute;margin:.3em;width:100%;background:#000;-moz-opacity:0.10;opacity:.10;filter:alpha(opacity=10);z-index:9049;} 
+.yui-ac-content ul{margin:0;padding:0;width:100%;} 
+.yui-ac-content li{margin:0;padding:2px 5px;cursor:default;white-space:nowrap;} 
+.yui-ac-content li.yui-ac-prehighlight{background:#B3D4FF;} 
+.yui-ac-content li.yui-ac-highlight{background:#426FD9;color:#FFF;}
+
+#spacepathinputdiv { width:250px;}
+#spacepathinputdiv .result {position:relative;height:16px;}
+#spacepathinputdiv .name {position:absolute;bottom:0;left:2px;}
+#spacepathinputdiv .img {position:absolute;top:0;left:0;width:58px;height:58px;border:1px solid black;}
+#spacepathinputdiv .imgtext {position:absolute;width:58px;top:50%;text-align:center;}
+#spacepathinputdiv img {width:60px;height:60px;margin-right:4px;}
+
+.treeNav {
+	width:500px;
+	height: 240px;
+	overflow:auto;
+	margin-top: 20px;
+}
+

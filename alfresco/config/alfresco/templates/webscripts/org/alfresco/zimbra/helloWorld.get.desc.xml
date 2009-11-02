@@ -1,0 +1,9 @@
+<webscript>
+  <shortname>Hello World</shortname>
+  <description>Hello World from Alfresco</description>
+  <url format="json" template="/zimbra/helloworld.json"/>
+  <url format="html" template="/zimbra/helloworld.html"/>
+  <format default="json">extension</format>
+  <authentication>user</authentication>
+  <transaction>required</transaction>
+</webscript>
