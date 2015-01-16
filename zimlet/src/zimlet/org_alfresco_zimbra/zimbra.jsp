@@ -1,11 +1,18 @@
 <%@ page language="java" import="org.apache.commons.httpclient.*, org.apache.commons.httpclient.methods.*, javax.servlet.*, com.zimbra.common.util.*"%>
-<%@ page language="java" import="java.net.*, java.util.*, com.zimbra.common.util.*, com.zimbra.cs.util.NetUtil, com.zimbra.cs.servlet.ZimbraServlet"%>
+<%@ page language="java" import="java.net.*, java.util.*, com.zimbra.common.util.*"%>
 <%@ page language="java" import="java.io.*, org.apache.commons.httpclient.methods.multipart.*"%>
 <%@ page language="java" import="com.zimbra.cs.service.*" %>
 <%@ page language="java" import="com.zimbra.cs.zclient.*" %>
+<%@ page language="java" import="org.apache.log4j.Logger" %>
 
 <%@ page import="org.apache.commons.fileupload.*,org.apache.commons.fileupload.disk.*, org.apache.commons.io.*, java.util.*,
 java.io.File, java.lang.Exception" %>
+
+
+<%!
+    private static final Logger				_log				= Logger.getLogger( "org_alfresco_zimbra" );
+%>
+
 <%
     String AlfServiceURL = "/alfresco/wcservice/zimbra/upload";
     String src = null;
@@ -16,13 +23,9 @@ java.io.File, java.lang.Exception" %>
     String tags = null;
     String ticket = null;
     String name = null;
-    String id = null;
     
     try { src = request.getParameter("src");   // Document source 
     } catch (Exception e) { src = ""; }
-
-    try { id = request.getParameter("id");   // Document source 
-    } catch (Exception e) {id = ""; }
 
     try { name = request.getParameter("name");   // Document name
     	  name = URLEncoder.encode (name,"UTF-8").replace("+", "%20");
@@ -50,11 +53,21 @@ java.io.File, java.lang.Exception" %>
     try { alfUrl = request.getParameter ("alfurl"); }
     catch (Exception e) { alfUrl=""; }
 
-    String url = "http://"+alfUrl + AlfServiceURL;
+    // String url = "http://"+alfUrl + AlfServiceURL;
+    String url = alfUrl + AlfServiceURL;
     
     //name="%E4%B8%AD%E6%96%87.doc";
+
+    _log.error( "org_alfresco_zimbra.zimbra.jsp: src=" + src );
+    _log.error( "org_alfresco_zimbra.zimbra.jsp: alfUrl=" + alfUrl );
+    _log.error( "org_alfresco_zimbra.zimbra.jsp: path=" + path );
+    _log.error( "org_alfresco_zimbra.zimbra.jsp: desc=" + desc );
+    _log.error( "org_alfresco_zimbra.zimbra.jsp: title=" + title );
+    _log.error( "org_alfresco_zimbra.zimbra.jsp: tags=" + tags );
+    _log.error( "org_alfresco_zimbra.zimbra.jsp: ticket=" + ticket );
+    _log.error( "org_alfresco_zimbra.zimbra.jsp: name=" + name );
     
-    // System.out.println ("[Yflickr] Uploading to URL " + url);
+    // _log.error ("[Yflickr] Uploading to URL " + url);
 
     ServletOutputStream os = response.getOutputStream();
     /* response.setStatus(200);
@@ -97,14 +110,15 @@ java.io.File, java.lang.Exception" %>
 
         ByteUtil.copy(get.getResponseBodyAsStream(), false, rfile_stream, false);
     }
-    catch (Exception e) {
+    catch (Exception e)
+    {
+	_log.error( e );
     }
 
     MultipartPostMethod mpm = new MultipartPostMethod (url+"?ticket="+ticket);
 
     mpm.addParameter ("ticket", ticket);
     mpm.addParameter ("path", path);
-    if ((id != null) && (id.length() > 0)) { mpm.addParameter ("id", id); }
     if ((name != null) && (name.length() > 0)) { mpm.addParameter ("name", name); }
     if ((title != null) && (title.length() > 0)) { mpm.addParameter ("title", title); }
     if ((desc != null) && (desc.length() > 0)) { mpm.addParameter ("desc", desc); }
@@ -121,6 +135,7 @@ java.io.File, java.lang.Exception" %>
         client.getHttpConnectionManager().getParams().setConnectionTimeout (10000);
         client.executeMethod (mpm);
     } catch (HttpException ex) {
+	_log.error( ex );
         response.sendError(500);
         return;
     }
@@ -128,12 +143,14 @@ java.io.File, java.lang.Exception" %>
     try {
         response.setStatus (mpm.getStatusCode ());
     } catch (Exception e) {
+	_log.error( e );
         response.setStatus (500);
     }
 
     try { 
         response.setContentType (mpm.getResponseHeader ("Content-Type").getValue());
     } catch (Exception e) {
+	_log.error( e );
         response.setContentType ("text/plain");
     }
 

@@ -37,6 +37,7 @@ YAHOO.extend(YAHOO.widget.AlfNode, YAHOO.widget.TextNode, {
      * @type boolean
      */
     checked: false,
+    isCheckDisabled: false,
 
     /**
      * checkState
@@ -262,13 +263,20 @@ YAHOO.extend(YAHOO.widget.AlfNode, YAHOO.widget.TextNode, {
         sb[sb.length] = '<div class="ygtvspacer"></div></td>';
 
         // check box
-        sb[sb.length] = '<td';
-        sb[sb.length] = ' id="' + this.getCheckElId() + '"';
-        sb[sb.length] = ' class="' + this.getCheckStyle() + '"';
-        sb[sb.length] = ' onclick="javascript:' + this.getCheckLink() + '">';
-        //sb[sb.length] = '&#160;</td>';
-        sb[sb.length] = '<div class="ygtvspacer"></div></td>';
-        
+	if( this.isCheckDisabled )
+	{
+	        sb[sb.length] = '<td>';
+	        sb[sb.length] = '<div class="ygtvspacer"></div></td>';
+	}
+	else
+	{
+	        sb[sb.length] = '<td';
+        	sb[sb.length] = ' id="' + this.getCheckElId() + '"';
+	        sb[sb.length] = ' class="' + this.getCheckStyle() + '"';
+	        sb[sb.length] = ' onclick="javascript:' + this.getCheckLink() + '">';
+	        //sb[sb.length] = '&#160;</td>';
+	        sb[sb.length] = '<div class="ygtvspacer"></div></td>';
+        }
 
         sb[sb.length] = '<td>';
         sb[sb.length] = '<a';

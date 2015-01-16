@@ -1,32 +1,39 @@
-<import resource="/Company Home/Data Dictionary/Web Scripts Extensions/zimlets/org/alfresco/util/json.js">
-<import resource="/Company Home/Data Dictionary/Web Scripts Extensions/zimlets/org/alfresco/util/alfcommon.js">
+<import resource="/Company Home/Data Dictionary/Web Scripts Extensions/org/alfresco/util/alfcommon.js">
+<import resource="/Company Home/Data Dictionary/Web Scripts Extensions/org/alfresco/fastpublish/configuration.js">
 
 var node = null;
 
-if ((args.n) && (args.n != ""))
-{
-   node = search.findNode("workspace://SpacesStore/" + args.n);
+//Find out the root path
+if(defaultRootSpaceName==undefined) {
+	rootSpace = companyhome;
+} else {
+	// search for nodeRef of defaultRootSpaceName
+	var newRootSpace = companyhome.childByNamePath(defaultRootSpaceName);
+	if(newRootSpace!=null) {
+		rootSpace = newRootSpace;
+	} else {
+		rootSpace = companyhome;
+	}
+}
+
+if ((args.n) && (args.n != "")) {
+	node = search.findNode("workspace://SpacesStore/" + args.n);
+} else {
+	// node = rootSpace;
 }
 
 // Check here in case invalid nodeRef passed-in
-if (node == null)
-{
-   if ((args.p) && (args.p != ""))
-   {
+if (node == null) {
+   if ((args.p) && (args.p != "")) {
       var path = args.p;
-      if (path == "/" + companyhome.name)
-      {
-         node = companyhome;
-      }
-      else
-      {
+      // if (path == "/" + companyhome.name) {
+      if (path == "/") {
+         node = rootSpace;
+      } else {
          var node = companyhome.childByNamePath(path.substring(companyhome.name.length()+2));
-         if (node != null)
-         {
+         if (node != null) {
             node = node;
-         }
-         else
-         {
+         } else {
             node = userhome;
          }
       }
@@ -34,8 +41,7 @@ if (node == null)
 }
 
 // Last chance - default to userhome
-if (node == null)
-{
+if (node == null) {
    node = userhome;
 }
 
@@ -96,4 +102,5 @@ for each ( var child in node.children ) {
 
 result.children = children;
 
-model.result = result.toJSONString();
+// model.result = result.toJSONString();
+model.result = jsonUtils.toJSONString(result);

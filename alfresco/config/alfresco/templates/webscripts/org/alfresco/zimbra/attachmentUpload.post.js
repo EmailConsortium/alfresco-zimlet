@@ -1,5 +1,5 @@
-<import resource="/Company Home/Data Dictionary/Web Scripts Extensions/zimlets/org/alfresco/util/json.js">
-<import resource="/Company Home/Data Dictionary/Web Scripts Extensions/zimlets/org/alfresco/util/alfcommon.js">
+<import resource="/Company Home/Data Dictionary/Web Scripts Extensions/org/alfresco/util/alfcommon.js">
+<import resource="/Company Home/Data Dictionary/Web Scripts Extensions/org/alfresco/fastpublish/configuration.js">
 
 function startsWith (str, pattern) {
     return str.indexOf(pattern) === 0;
@@ -12,8 +12,6 @@ var msg = "";
 
 var DEFAULT_FILE_NAME = "zimbra_email_attachment";
 
-var defaultEmailArchiveSpace = "Email Archives";
-
 var path = null;
 var name = null;
 var filename = null;
@@ -21,7 +19,6 @@ var content = null;
 var title = "";
 var description = "";
 var mimetype = null;
-var id = null;
 
 
 var tags;
@@ -35,11 +32,7 @@ if ( AlfCommon.Util.isNull(username) )
 
 for each (field in formdata.fields)
 {
-  if (field.name == "id")
-  {
-    id= field.value;
-  }
-  else if (field.name == "title")
+  if (field.name == "title")
   {
     title= field.value;
   }
@@ -92,10 +85,11 @@ script:
 	// Locate the space to upload the file
 	var docSpace = null;
 
-	if ( path == null ) {
+	if ( path == null || path.length < 3 || path == "") {
 
 		// If path is not given, use user's home space.
-		docSpace = userhome;
+		//docSpace = userhome;
+		docSpace = defaultUploadFolder;
 
 	} else {
 
@@ -108,7 +102,7 @@ script:
 		if ( docSpace == null ) {
 		
 			status = false;
-			msg = "Space with path "+path+" not found!";
+			msg = "Space with path '"+path+"' not found!";
 
 			break script;			
 		}
@@ -166,51 +160,14 @@ script:
 	upload.properties.content.encoding = "UTF-8";
 	
 	upload.save();
-  	
-  	// Check to see if it needs to be associated with email body
-  	if ( id != null ) {
-  	
-  		// Try to find the email body
-  		var emailMsg = userhome.childByNamePath (defaultEmailArchiveSpace+"/"+id);
-  		
-  		// If email exists
-  		if ( emailMsg != null ) {
-  		
-  			var emailAttachments = emailMsg.assocs["cm:attachments"];
-						
-			var uploadNodeRef = upload.nodeRef;
-			
-			var associated = false;
-			
-			// Remove the existing attachment association if any
-			if ( emailAttachments != null ) {
-
-				for ( var i = 0 ; i < emailAttachments.length ; i ++ ) {
-
-					if ( emailAttachments[i].nodeRef.equals(uploadNodeRef))
-						associated = true;		
-
-				}
-
-			}
-  		
-			if ( ! associated) {
-				emailMsg.createAssociation(upload, "cm:attachments");
-				emailMsg.save();
-			}	
-					
-  		}
-  	
-  	}
-  	
-  	
+  
   	status = true;
-  	msg += "Attachment "+filename+" has been saved to Space "+docSpace.properties.name; 
+  	msg = "Document "+filename+" has been uploaded to Space "+docSpace.properties.name; 
   
 }
 
 result.status = status;
 result.msg = msg;
 
-model.result = result.toJSONString();
-
+// model.result = result.toJSONString();
+model.result = jsonUtils.toJSONString(result);

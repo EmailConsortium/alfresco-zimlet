@@ -314,18 +314,7 @@ AlfCommon.Util = {
 	    	
     	}	
     
-	},
-	
-	endsWith: function (str, s){
-		var reg = new RegExp (s + "$");
-		return reg.test(str);
-	},
-	
-	startsWith: function (str, s){
-		var reg = new RegExp("^" + s);
-		return reg.test(str);
 	}
-
     
 };
 
@@ -526,60 +515,5 @@ AlfCommon.Url = {
 
         return string;
     }
-
-};
-
-/**
- * Time and Date Related Functions.
- * @namespace Url
- */
-AlfCommon.Date = {
-
-	 // Return datetime object from string in the format of
-	 // yyyy-mm-dd hh:mm:ss AM/PM
- 	 
-	 getDate: function ( datetimeString ) {
-
-		var datetimeParts = datetimeString.split(" ");
-
-		var dateParts = datetimeParts[0].split("-");
-
-		var year  = dateParts[0];
-
-		var month = dateParts[1]-1;
-
-		var day   = dateParts[2];
-
-		var timeParts = datetimeParts[1].split(":");
-
-		var hours = parseInt(timeParts[0],10);
-
-		if ( datetimeParts[2] == "PM" ) {	
-
-			if ( hours < 12 )
-				hours += 12;
-
-		}
-
-		var minutes = timeParts[1];
-		
-		var seconds = timeParts[2];
-
-		var returnDate = new Date();
-
-		returnDate.setFullYear(year);
-
-		returnDate.setMonth(month);
-
-		returnDate.setDate(day);
-
-		returnDate.setHours(hours);
-
-		returnDate.setMinutes(minutes);
-		
-		returnDate.setSeconds(seconds);
-
-		return returnDate;
-	}
 
 };
